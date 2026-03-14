@@ -17,6 +17,8 @@ export interface BongoCatProps {
   zIndex?: number;
   /** Enable scale pulse on input. Defaults to true */
   pulse?: boolean;
+  /** Margin-top applied to each sprite image to ground the cat visually. Defaults to "37%" */
+  spriteMarginTop?: string | number;
   /** Additional className on the container */
   className?: string;
   /** Additional inline styles on the container */
@@ -46,7 +48,7 @@ const RIGHT_KEYS = new Set([
 
 const MIN_ANIMATION_MS = 100;
 
-const imgStyle: CSSProperties = {
+const baseImgStyle: CSSProperties = {
   position: "absolute",
   inset: 0,
   width: "100%",
@@ -63,6 +65,7 @@ export function BongoCat({
   height = 40,
   zIndex = 9998,
   pulse: pulseEnabled = true,
+  spriteMarginTop = "37%",
   className = "",
   style: userStyle,
 }: BongoCatProps = {}) {
@@ -72,6 +75,11 @@ export function BongoCat({
   const idleTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const basePath = assetsPath.replace(/\/$/, "");
+
+  const imgStyle: CSSProperties = {
+    ...baseImgStyle,
+    marginTop: typeof spriteMarginTop === "number" ? `${spriteMarginTop}px` : spriteMarginTop,
+  };
 
   const returnToIdle = useCallback(() => {
     const elapsed = Date.now() - pawDownTimeRef.current;

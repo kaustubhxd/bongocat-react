@@ -16,11 +16,13 @@ interface BongoCatProps {
     zIndex?: number;
     /** Enable scale pulse on input. Defaults to true */
     pulse?: boolean;
+    /** Margin-top applied to each sprite image to ground the cat visually. Defaults to "37%" */
+    spriteMarginTop?: string | number;
     /** Additional className on the container */
     className?: string;
     /** Additional inline styles on the container */
     style?: CSSProperties;
 }
-declare function BongoCat({ assetsPath, bottom, right, width, height, zIndex, pulse: pulseEnabled, className, style: userStyle, }?: BongoCatProps): react_jsx_runtime.JSX.Element;
+declare function BongoCat({ assetsPath, bottom, right, width, height, zIndex, pulse: pulseEnabled, spriteMarginTop, className, style: userStyle, }?: BongoCatProps): react_jsx_runtime.JSX.Element;
 
 export { BongoCat, type BongoCatProps };

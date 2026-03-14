@@ -97,7 +97,7 @@ var RIGHT_KEYS = /* @__PURE__ */ new Set([
   "ArrowRight"
 ]);
 var MIN_ANIMATION_MS = 100;
-var imgStyle = {
+var baseImgStyle = {
   position: "absolute",
   inset: 0,
   width: "100%",
@@ -113,6 +113,7 @@ function BongoCat({
   height = 40,
   zIndex = 9998,
   pulse: pulseEnabled = true,
+  spriteMarginTop = "37%",
   className = "",
   style: userStyle
 } = {}) {
@@ -121,6 +122,10 @@ function BongoCat({
   const pawDownTimeRef = (0, import_react.useRef)(0);
   const idleTimerRef = (0, import_react.useRef)(void 0);
   const basePath = assetsPath.replace(/\/$/, "");
+  const imgStyle = {
+    ...baseImgStyle,
+    marginTop: typeof spriteMarginTop === "number" ? `${spriteMarginTop}px` : spriteMarginTop
+  };
   const returnToIdle = (0, import_react.useCallback)(() => {
     const elapsed = Date.now() - pawDownTimeRef.current;
     const remaining = Math.max(0, MIN_ANIMATION_MS - elapsed);
