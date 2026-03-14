@@ -18,11 +18,17 @@ interface BongoCatProps {
     pulse?: boolean;
     /** Margin-top applied to each sprite image to ground the cat visually. Defaults to "37%" */
     spriteMarginTop?: string | number;
+    /** Show a fun tooltip when the cat is clicked. Defaults to true */
+    clickTooltip?: boolean;
+    /** Custom tooltip messages. Uses built-in cat messages if not provided */
+    messages?: string[];
+    /** How long the tooltip stays visible in ms. Defaults to 2000 */
+    messageDuration?: number;
     /** Additional className on the container */
     className?: string;
     /** Additional inline styles on the container */
     style?: CSSProperties;
 }
-declare function BongoCat({ assetsPath, bottom, right, width, height, zIndex, pulse: pulseEnabled, spriteMarginTop, className, style: userStyle, }?: BongoCatProps): react_jsx_runtime.JSX.Element;
+declare function BongoCat({ assetsPath, bottom, right, width, height, zIndex, pulse: pulseEnabled, spriteMarginTop, clickTooltip, messages, messageDuration, className, style: userStyle, }?: BongoCatProps): react_jsx_runtime.JSX.Element;
 
 export { BongoCat, type BongoCatProps };

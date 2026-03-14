@@ -19,6 +19,12 @@ export interface BongoCatProps {
   pulse?: boolean;
   /** Margin-top applied to each sprite image to ground the cat visually. Defaults to "37%" */
   spriteMarginTop?: string | number;
+  /** Show a fun tooltip when the cat is clicked. Defaults to true */
+  clickTooltip?: boolean;
+  /** Custom tooltip messages. Uses built-in cat messages if not provided */
+  messages?: string[];
+  /** How long the tooltip stays visible in ms. Defaults to 2000 */
+  messageDuration?: number;
   /** Additional className on the container */
   className?: string;
   /** Additional inline styles on the container */
@@ -48,6 +54,37 @@ const RIGHT_KEYS = new Set([
 
 const MIN_ANIMATION_MS = 100;
 
+const DEFAULT_MESSAGES = [
+  "meow~ keep typing! 🐱",
+  "purrr... nice clicks!",
+  "i'm helping! 🐾",
+  "*bonk bonk bonk*",
+  "nyaa~ don't mind me~",
+  "cats make everything better ✨",
+  "10/10 typing form 👏",
+  "*purring intensifies*",
+  "you're doing great, hooman!",
+  "boop! 🐾",
+  "feed me... with keystrokes",
+  "i sit on keyboard now",
+  "you type, i bonk 🎹",
+];
+
+const tooltipStyle: CSSProperties = {
+  position: "absolute",
+  top: -36,
+  right: 0,
+  whiteSpace: "nowrap",
+  borderRadius: 8,
+  backgroundColor: "#18181b",
+  color: "#fafafa",
+  padding: "6px 12px",
+  fontSize: 12,
+  boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+  animation: "bongocat-fade-in 0.15s ease-out",
+  pointerEvents: "none",
+};
+
 const baseImgStyle: CSSProperties = {
   position: "absolute",
   inset: 0,
@@ -66,13 +103,18 @@ export function BongoCat({
   zIndex = 9998,
   pulse: pulseEnabled = true,
   spriteMarginTop = "37%",
+  clickTooltip = true,
+  messages = DEFAULT_MESSAGES,
+  messageDuration = 2000,
   className = "",
   style: userStyle,
 }: BongoCatProps = {}) {
   const [state, setState] = useState<CatState>("idle");
   const [pulse, setPulse] = useState(false);
+  const [tooltipMsg, setTooltipMsg] = useState<string | null>(null);
   const pawDownTimeRef = useRef(0);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const tooltipTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const basePath = assetsPath.replace(/\/$/, "");
 
@@ -151,8 +193,16 @@ export function BongoCat({
       window.removeEventListener("mouseup", onMouseUp, true);
       window.removeEventListener("contextmenu", onContextMenu, true);
       clearTimeout(idleTimerRef.current);
+      clearTimeout(tooltipTimerRef.current);
     };
   }, [returnToIdle, triggerPulse]);
+
+  const handleCatClick = useCallback(() => {
+    if (!clickTooltip || messages.length === 0) return;
+    clearTimeout(tooltipTimerRef.current);
+    setTooltipMsg(messages[Math.floor(Math.random() * messages.length)]);
+    tooltipTimerRef.current = setTimeout(() => setTooltipMsg(null), messageDuration);
+  }, [clickTooltip, messages, messageDuration]);
 
   const leftDown = state === "leftPawDown" || state === "bothPawsDown";
   const rightDown = state === "rightPawDown" || state === "bothPawsDown";
@@ -164,7 +214,7 @@ export function BongoCat({
     width,
     height,
     zIndex,
-    pointerEvents: "none",
+    cursor: clickTooltip ? "pointer" : undefined,
     userSelect: "none",
     transform: pulse ? "scale(1.08)" : "scale(1)",
     transition: "transform 0.1s ease-out",
@@ -172,20 +222,28 @@ export function BongoCat({
   };
 
   return (
-    <div className={className} style={containerStyle}>
-      <img src={`${basePath}/base.png`} alt="" draggable={false} style={imgStyle} />
-      <img
-        src={leftDown ? `${basePath}/left-down.png` : `${basePath}/left-up.png`}
-        alt=""
-        draggable={false}
-        style={imgStyle}
-      />
-      <img
-        src={rightDown ? `${basePath}/right-down.png` : `${basePath}/right-up.png`}
-        alt=""
-        draggable={false}
-        style={imgStyle}
-      />
-    </div>
+    <>
+      <style>{`@keyframes bongocat-fade-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}`}</style>
+      <div
+        className={className}
+        style={containerStyle}
+        onClick={handleCatClick}
+      >
+        {tooltipMsg && <div style={tooltipStyle}>{tooltipMsg}</div>}
+        <img src={`${basePath}/base.png`} alt="" draggable={false} style={imgStyle} />
+        <img
+          src={leftDown ? `${basePath}/left-down.png` : `${basePath}/left-up.png`}
+          alt=""
+          draggable={false}
+          style={imgStyle}
+        />
+        <img
+          src={rightDown ? `${basePath}/right-down.png` : `${basePath}/right-up.png`}
+          alt=""
+          draggable={false}
+          style={imgStyle}
+        />
+      </div>
+    </>
   );
 }

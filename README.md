@@ -49,8 +49,29 @@ function App() {
 | `zIndex` | `number` | `9998` | z-index of the overlay |
 | `pulse` | `boolean` | `true` | Scale pulse animation on input |
 | `spriteMarginTop` | `string \| number` | `"37%"` | Margin-top on sprites to ground the cat visually |
+| `clickTooltip` | `boolean` | `true` | Show a fun tooltip when the cat is clicked |
+| `messages` | `string[]` | Built-in cat messages | Custom tooltip messages |
+| `messageDuration` | `number` | `2000` | How long the tooltip stays visible (ms) |
 | `className` | `string` | `""` | Additional CSS class |
 | `style` | `CSSProperties` | — | Additional inline styles |
+
+## Click Tooltip
+
+Click on the cat and it'll say something fun! Enabled by default with 13 built-in messages. Customize with your own:
+
+```tsx
+{/* Use built-in messages (default) */}
+<BongoCat />
+
+{/* Custom messages */}
+<BongoCat messages={["hire me!", "star this repo ⭐", "todo: take over world"]} />
+
+{/* Disable tooltip */}
+<BongoCat clickTooltip={false} />
+
+{/* Longer display */}
+<BongoCat messageDuration={5000} />
+```
 
 ## Positioning
 
@@ -88,7 +109,7 @@ This package does not track, collect, or transmit any data. No analytics, no tel
 - Listens to `keydown`/`keyup` on `document` and `mousedown`/`mouseup` on `window` (capture phase)
 - Maps physical key positions (`event.code`) to left/right paw — left-half keyboard keys move the left paw, right-half keys move the right paw
 - Left mouse click → left paw, right click → right paw
-- `pointer-events: none` — the cat never intercepts your clicks
+- Click on the cat → random fun tooltip message
 - Handles context menu stealing mouseup events
 
 ## Credits
