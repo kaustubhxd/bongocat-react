@@ -2,7 +2,11 @@
 
 A React component that adds an animated BongoCat overlay to your app. The cat reacts to keyboard typing and mouse clicks in real-time.
 
-Based on the sprite system from [BongoCat-mac](https://github.com/Gamma-Software/BongoCat-mac) (MIT licensed).
+<p align="center">
+  <img src="assets/bongocat.gif" alt="BongoCat demo" width="300" />
+</p>
+
+Built using [BongoCat-mac](https://github.com/Gamma-Software/BongoCat-mac) as reference (MIT licensed).
 
 ## Install
 
@@ -47,6 +51,33 @@ function App() {
 | `spriteMarginTop` | `string \| number` | `"37%"` | Margin-top on sprites to ground the cat visually |
 | `className` | `string` | `""` | Additional CSS class |
 | `style` | `CSSProperties` | — | Additional inline styles |
+
+## Positioning
+
+By default, the cat sits in the **bottom-right corner**. Use `bottom`, `right`, and `style` to place it wherever you want:
+
+```tsx
+{/* Bottom-right (default) */}
+<BongoCat />
+
+{/* Bottom-left */}
+<BongoCat right="auto" style={{ left: 16 }} />
+
+{/* Top-right */}
+<BongoCat bottom="auto" style={{ top: 16 }} />
+
+{/* Top-left */}
+<BongoCat bottom="auto" right="auto" style={{ top: 16, left: 16 }} />
+
+{/* Centered at bottom */}
+<BongoCat right="auto" style={{ left: "50%", transform: "translateX(-50%)" }} />
+
+{/* Custom offset */}
+<BongoCat bottom={40} right={40} />
+
+{/* Bigger cat */}
+<BongoCat width={130} height={80} />
+```
 
 ## Privacy
 
