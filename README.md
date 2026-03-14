@@ -44,8 +44,13 @@ function App() {
 | `height` | `number` | `40` | Container height in px |
 | `zIndex` | `number` | `9998` | z-index of the overlay |
 | `pulse` | `boolean` | `true` | Scale pulse animation on input |
+| `spriteMarginTop` | `string \| number` | `"37%"` | Margin-top on sprites to ground the cat visually |
 | `className` | `string` | `""` | Additional CSS class |
 | `style` | `CSSProperties` | — | Additional inline styles |
+
+## Privacy
+
+This package does not track, collect, or transmit any data. No analytics, no telemetry, no cookies. It's intentionally kept simple — just a lil kitty reacting to your keystrokes and clicks, entirely client-side.
 
 ## How it works
 
@@ -57,7 +62,7 @@ function App() {
 
 ## Credits
 
-- Cat sprites from [BongoCat-mac](https://github.com/Gamma-Software/BongoCat-mac) by Valentin Rudloff (MIT)
+- Built using [BongoCat-mac](https://github.com/Gamma-Software/BongoCat-mac) by Valentin Rudloff as reference — the sprite system and paw state machine were adapted from that project (MIT licensed)
 - Original BongoCat meme by [@DitzyFlama](https://twitter.com/DitzyFlama), cat art by [@StrayRogue](https://twitter.com/StrayRogue)
 
 ## License
