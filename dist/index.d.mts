@@ -2,8 +2,6 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import { CSSProperties } from 'react';
 
 interface BongoCatProps {
-    /** Base URL path to the sprite assets directory (must contain base.png, left-up.png, left-down.png, right-up.png, right-down.png). Defaults to "/bongo-cat" */
-    assetsPath?: string;
     /** CSS bottom offset. Defaults to 16 */
     bottom?: number | string;
     /** CSS right offset. Defaults to 16 */
@@ -29,6 +27,6 @@ interface BongoCatProps {
     /** Additional inline styles on the container */
     style?: CSSProperties;
 }
-declare function BongoCat({ assetsPath, bottom, right, width, height, zIndex, pulse: pulseEnabled, spriteMarginTop, clickTooltip, messages, messageDuration, className, style: userStyle, }?: BongoCatProps): react_jsx_runtime.JSX.Element;
+declare function BongoCat({ bottom, right, width, height, zIndex, pulse: pulseEnabled, spriteMarginTop, clickTooltip, messages, messageDuration, className, style: userStyle, }?: BongoCatProps): react_jsx_runtime.JSX.Element;
 
 export { BongoCat, type BongoCatProps };

@@ -1,10 +1,13 @@
 import { useState, useEffect, useRef, useCallback, CSSProperties } from "react";
+import base from "../assets/base.png";
+import left_up from "../assets/left-up.png";
+import left_down from "../assets/left-down.png";
+import right_up from "../assets/right-up.png";
+import right_down from "../assets/right-down.png";
 
 type CatState = "idle" | "leftPawDown" | "rightPawDown" | "bothPawsDown";
 
 export interface BongoCatProps {
-  /** Base URL path to the sprite assets directory (must contain base.png, left-up.png, left-down.png, right-up.png, right-down.png). Defaults to "/bongo-cat" */
-  assetsPath?: string;
   /** CSS bottom offset. Defaults to 16 */
   bottom?: number | string;
   /** CSS right offset. Defaults to 16 */
@@ -95,7 +98,6 @@ const baseImgStyle: CSSProperties = {
 };
 
 export function BongoCat({
-  assetsPath = "/bongo-cat",
   bottom = 16,
   right = 16,
   width = 65,
@@ -116,11 +118,12 @@ export function BongoCat({
   const idleTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  const basePath = assetsPath.replace(/\/$/, "");
-
   const imgStyle: CSSProperties = {
     ...baseImgStyle,
-    marginTop: typeof spriteMarginTop === "number" ? `${spriteMarginTop}px` : spriteMarginTop,
+    marginTop:
+      typeof spriteMarginTop === "number"
+        ? `${spriteMarginTop}px`
+        : spriteMarginTop,
   };
 
   const returnToIdle = useCallback(() => {
@@ -152,7 +155,9 @@ export function BongoCat({
       } else if (RIGHT_KEYS.has(e.code)) {
         setState("rightPawDown");
       } else {
-        setState(e.code.charCodeAt(0) % 2 === 0 ? "leftPawDown" : "rightPawDown");
+        setState(
+          e.code.charCodeAt(0) % 2 === 0 ? "leftPawDown" : "rightPawDown",
+        );
       }
     };
 
@@ -201,7 +206,10 @@ export function BongoCat({
     if (!clickTooltip || messages.length === 0) return;
     clearTimeout(tooltipTimerRef.current);
     setTooltipMsg(messages[Math.floor(Math.random() * messages.length)]);
-    tooltipTimerRef.current = setTimeout(() => setTooltipMsg(null), messageDuration);
+    tooltipTimerRef.current = setTimeout(
+      () => setTooltipMsg(null),
+      messageDuration,
+    );
   }, [clickTooltip, messages, messageDuration]);
 
   const leftDown = state === "leftPawDown" || state === "bothPawsDown";
@@ -230,15 +238,15 @@ export function BongoCat({
         onClick={handleCatClick}
       >
         {tooltipMsg && <div style={tooltipStyle}>{tooltipMsg}</div>}
-        <img src={`${basePath}/base.png`} alt="" draggable={false} style={imgStyle} />
+        <img src={base} alt="" draggable={false} style={imgStyle} />
         <img
-          src={leftDown ? `${basePath}/left-down.png` : `${basePath}/left-up.png`}
+          src={leftDown ? left_down : left_up}
           alt=""
           draggable={false}
           style={imgStyle}
         />
         <img
-          src={rightDown ? `${basePath}/right-down.png` : `${basePath}/right-up.png`}
+          src={rightDown ? right_down : right_up}
           alt=""
           draggable={false}
           style={imgStyle}
